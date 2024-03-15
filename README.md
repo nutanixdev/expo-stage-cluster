@@ -1,10 +1,4 @@
-# Nutanix TME Repository Template
-
-This repository must be used when creating new GitHub repositories.  It contains a number of enhancements and approved legal disclaimers that must be published with every code sample.
-
------ DELETE EVERYTHING ABOVE HERE -----
-
-# New Repository Name
+# expo-stage-cluster
 
 Introduction here.
 
@@ -32,4 +26,4 @@ To use this code sample/script, follow the instructions below.
 
 # Support and Disclaimer
 
-These code samples are intended as a standalone examples.  Please be aware that all public code samples provided by Nutanix are unofficial in nature, are provided as examples only, are unsupported and will need to be heavily scrutinized and potentially modified before they can be used in a production environment.  All such code samples are provided on an as-is basis, and Nutanix expressly disclaims all warranties, express or implied.  All code samples are © Nutanix, Inc., and are provided as-is under the MIT license (https://opensource.org/licenses/MIT).
+These code samples are intended as a standalone examples.  Please be aware that all public code samples provided by Nutanix are unofficial in nature, are provided as examples only, are unsupported and will need to be heavily scrutinized and potentially modified before they can be used in a production environment.  All such code samples are provided on an as-is basis, and Nutanix expressly disclaims all warranties, express or implied.  All code samples are © Nutanix, Inc., and are provided as-is under the MIT license (<https://opensource.org/licenses/MIT>).
