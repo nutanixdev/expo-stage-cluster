@@ -14,32 +14,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Environment variables
 : ${NTNX_GH_ORGANIZATION:="nutanixdev"}
 : ${NTNX_GH_REPOSITORY:="expo-stage-cluster"}
 : ${NTNX_GH_BRANCH:="main"}
+: ${NTNX_PRISM_NW1_NAME:="primary"}
+: ${NTNX_PRISM_NW2_NAME:="secondary"}
+: ${NTNX_PRISM_DNS_SERVERS:="10.42.194.10,10.42.196.10,10.54.1.5"}
+: ${NTNX_PRISM_NTP_SERVERS:="time1.google.com,time2.google.com,time3.google.com"}
 
 BASE_URL=https://github.com/${NTNX_GH_ORGANIZATION}/${NTNX_GH_REPOSITORY}
 ARCHIVE=${BASE_URL}/archive/${NTNX_GH_BRANCH}.zip
 
-case "${1}" in
-  clean )
-    echo "Cleaning up..."
-    #rm -rf ${ARCHIVE##*/} ${0} ${REPOSITORY}-${BRANCH}/
-    exit 0
-    ;;
-  cache )
-    cache
-    ;;
-  *)
-    WORKSHOP="${1}"
-    ;;
-esac
-
-if [[ -f ${NTNX_GH_BRANCH}.zip ]]; then
-    echo "here"
-    sh ${HOME}/${0} clean
-fi
+. /etc/profile
 
 echo -e "\nFor details, please see: ${BASE_URL}/docs/guidebook.md"
 
-_ERROR=0
+curl ${CURL_OPTS} -o "${NTNX_GH_BRANCH}.zip" "$ARCHIVE"
