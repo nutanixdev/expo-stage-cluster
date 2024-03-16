@@ -35,11 +35,10 @@ if ! type jq > /dev/null 2>&1; then
     else
         _package_url="${_base_url}/download/${NTNX_PKG_JQ_VER}/${_filename}"
     fi
-    # execute_command curl -sSL -o jq-linux-amd64 "https://github.com/jqlang/jq/releases/download/${NTNX_PKG_JQ_VER}/jq-linux-amd64"
     execute_command wget ${_package_url}
     execute_command chmod +x ${_filename}
     execute_command sudo mv -f ${_filename} /usr/local/bin/jq
     execute_command jq --version
 
-    unset _base_url _filename _package_url
+    execute_command unset _base_url _filename _package_url
 fi
