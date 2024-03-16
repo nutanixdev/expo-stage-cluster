@@ -24,10 +24,20 @@
 : ${NTNX_PRISM_NTP_SERVERS:="time1.google.com,time2.google.com,time3.google.com"}
 
 BASE_URL=https://github.com/${NTNX_GH_ORGANIZATION}/${NTNX_GH_REPOSITORY}
-ARCHIVE=${BASE_URL}/archive/${NTNX_GH_BRANCH}.zip
+ARCHIVE_URL=${BASE_URL}/archive/${NTNX_GH_BRANCH}.zip
+ARCHIVE_FILENAME=${NTNX_GH_REPOSITORY}-${NTNX_GH_BRANCH}
+
+
+CURL_OPTS="--insecure --silent --show-error --location"
 
 . /etc/profile
 
 echo -e "\nFor details, please see: ${BASE_URL}/docs/guidebook.md"
 
-curl ${CURL_OPTS} -o "${NTNX_GH_BRANCH}.zip" "$ARCHIVE"
+if [[ -f ${ARCHIVE_FILENAME}.zip || -d ${ARCHIVE_FILENAME} ]]; then
+  /bin/rm -fR "${ARCHIVE_FILENAME}"*
+fi
+
+curl ${CURL_OPTS} --output "${ARCHIVE_FILENAME}.zip" "$ARCHIVE_URL"
+
+unzip "${ARCHIVE_FILENAME}"
