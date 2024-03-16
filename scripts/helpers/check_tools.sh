@@ -26,50 +26,19 @@ echo "SCRIPT_DIR=${SCRIPT_DIR}"
 : ${NTNX_PKG_JQ_VER:="latest"}
 
 # Check tools
-HAS_CURL="$(type "curl" &> /dev/null && echo true || echo false)"
-HAS_WGET="$(type "wget" &> /dev/null && echo true || echo false)"
-HAS_OPENSSL="$(type "openssl" &> /dev/null && echo true || echo false)"
-HAS_GPG="$(type "gpg" &> /dev/null && echo true || echo false)"
-HAS_GIT="$(type "git" &> /dev/null && echo true || echo false)"
-
-# Figure out correct version of a three part version number is not passed
-find_version_from_git_tags() {
-    local variable_name=$1
-    local requested_version=${!variable_name}
-    if [ "${requested_version}" = "none" ]; then return; fi
-    local repository=$2
-    local prefix=${3:-"tags/v"}
-    local separator=${4:-"."}
-    local last_part_optional=${5:-"false"}    
-    if [ "$(echo "${requested_version}" | grep -o "." | wc -l)" != "2" ]; then
-        local escaped_separator=${separator//./\\.}
-        local last_part
-        if [ "${last_part_optional}" = "true" ]; then
-            last_part="(${escaped_separator}[0-9]+)?"
-        else
-            last_part="${escaped_separator}[0-9]+"
-        fi
-        local regex="${prefix}\\K[0-9]+${escaped_separator}[0-9]+${last_part}$"
-        local version_list="$(git ls-remote --tags ${repository} | grep -oP "${regex}" | tr -d ' ' | tr "${separator}" "." | sort -rV)"
-        if [ "${requested_version}" = "latest" ] || [ "${requested_version}" = "current" ] || [ "${requested_version}" = "lts" ]; then
-            declare -g ${variable_name}="$(echo "${version_list}" | head -n 1)"
-        else
-            set +e
-            declare -g ${variable_name}="$(echo "${version_list}" | grep -E -m 1 "^${requested_version//./\\.}([\\.\\s]|$)")"
-            set -e
-        fi
-    fi
-    if [ -z "${!variable_name}" ] || ! echo "${version_list}" | grep "^${!variable_name//./\\.}$" > /dev/null 2>&1; then
-        echo -e "Invalid ${variable_name} value: ${requested_version}\nValid values:\n${version_list}" >&2
-        exit 1
-    fi
-    echo "${variable_name}=${!variable_name}"
-}
-
 if ! type jq > /dev/null 2>&1; then
-    execute_command find_version_from_git_tags NTNX_PKG_JQ_VER 'https://github.com/jqlang/jq'
-    execute_command curl -sSL -o jq-linux-amd64 "https://github.com/jqlang/jq/releases/download/${NTNX_PKG_JQ_VER}/jq-linux-amd64"
-    execute_command chmod +x jq-linux-amd64
-    execute_command sudo mv -f jq-linux-amd64 /usr/local/bin/jq
+    local _base_url="https://github.com/jqlang/jq/releases"
+    local _filename="jq-linux-amd64"
+    local _package_url
+
+    if [ "$NTNX_PKG_JQ_VER" = "latest" ]; then
+        _package_url="${_base_url}/latest/download/${_filename}"
+    else
+        _package_url="${_base_url}/download/${NTNX_PKG_JQ_VER}/${_filename}"
+    fi
+    # execute_command curl -sSL -o jq-linux-amd64 "https://github.com/jqlang/jq/releases/download/${NTNX_PKG_JQ_VER}/jq-linux-amd64"
+    execute_command wget ${_package_url}
+    execute_command chmod +x ${_filename}
+    execute_command sudo mv -f ${_filename} /usr/local/bin/jq
     execute_command jq --version
 fi
