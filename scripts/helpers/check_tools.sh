@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-. shell_common.sh
+. ./shell_common.sh
 
 # Environment variables
 : ${NTNX_PKG_JQ_VER:="latest"}
