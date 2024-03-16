@@ -20,7 +20,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 echo "SCRIPT_RUN=${SCRIPT_RUN}"
 echo "SCRIPT_DIR=${SCRIPT_DIR}"
 
-. ./shell_common.sh
+. ${SCRIPT_RUN}/shell_common.sh
 
 # Environment variables
 : ${NTNX_PKG_JQ_VER:="latest"}
