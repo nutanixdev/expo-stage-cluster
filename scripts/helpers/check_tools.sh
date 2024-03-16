@@ -27,9 +27,8 @@ echo "SCRIPT_DIR=${SCRIPT_DIR}"
 
 # Check tools
 if ! type jq > /dev/null 2>&1; then
-    local _base_url="https://github.com/jqlang/jq/releases"
-    local _filename="jq-linux-amd64"
-    local _package_url
+    _base_url="https://github.com/jqlang/jq/releases"
+    _filename="jq-linux-amd64"
 
     if [ "$NTNX_PKG_JQ_VER" = "latest" ]; then
         _package_url="${_base_url}/latest/download/${_filename}"
@@ -41,4 +40,6 @@ if ! type jq > /dev/null 2>&1; then
     execute_command chmod +x ${_filename}
     execute_command sudo mv -f ${_filename} /usr/local/bin/jq
     execute_command jq --version
+
+    unset _base_url _filename _package_url
 fi
