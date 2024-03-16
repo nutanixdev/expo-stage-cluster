@@ -14,12 +14,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+log_info() {
+    echo "[INFO] $(date +'%Y-%m-%d %H:%M:%S') $$ - $@"
+}
 
-function execute_command {
-    echo "Executing: $@"
-    eval $@
-    rc=$?
-    echo "Done"
-    echo
-    return $rc
+log_warn() {
+    echo "[WARN] $(date +'%Y-%m-%d %H:%M:%S') $$ - $@" >&2
+}
+
+log_error() {
+    echo "[ERROR] $(date +'%Y-%m-%d %H:%M:%S') $$ - $@" >&2
+}
+
+execute_command() {
+    # Log the command being executed
+    log_info "Executing command: $@"
+
+    # Execute the command
+    "$@"
+
+    # Check the exit status of the command
+    if [ $? -eq 0 ]; then
+        log_info "Command executed successfully"
+    else
+        log_error "Command failed with exit code $?"
+    fi
 }
