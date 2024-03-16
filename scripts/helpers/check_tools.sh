@@ -14,6 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+SCRIPT_RUN="$(dirname "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+echo "SCRIPT_RUN=${SCRIPT_RUN}"
+echo "SCRIPT_DIR=${SCRIPT_DIR}"
+
 . ./shell_common.sh
 
 # Environment variables
