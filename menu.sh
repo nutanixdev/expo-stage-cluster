@@ -116,8 +116,8 @@ function main() {
     local temp_dir=$(mktemp -d "$HOME/tme-$NTNX_GH_ARCHIVE_DIR-XXXXXX")
     cd "$temp_dir"
     wget $WGET_OPTS "$NTNX_GH_ARCHIVE_URL"
-    unzip -q "$NTNX_GH_ARCHIVE_FILENAME" && rm "$NTNX_GH_ARCHIVE_FILENAME"
-    mv "$NTNX_GH_ARCHIVE_DIR"/* . && rm -fr "$NTNX_GH_ARCHIVE_DIR"
+    unzip -q "$NTNX_GH_ARCHIVE_FILENAME" && /bin/rm "$NTNX_GH_ARCHIVE_FILENAME"
+    mv "$NTNX_GH_ARCHIVE_DIR"/* . && /bin/rm -fr "$NTNX_GH_ARCHIVE_DIR"
 
 }
 

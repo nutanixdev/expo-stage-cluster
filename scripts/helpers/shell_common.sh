@@ -37,7 +37,7 @@ fail_trap() {
 ####################################################
 cleanup() {
   if [[ -d "${PACKAGE_TMP_ROOT:-}" ]]; then
-    rm -rf "$PACKAGE_TMP_ROOT"
+    /bin/rm -rf "$PACKAGE_TMP_ROOT"
   fi
 }
 
