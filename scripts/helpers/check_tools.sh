@@ -26,6 +26,13 @@ SCRIPT_RUN="$(dirname "${BASH_SOURCE[0]}")"
 : ${NTNX_PKG_JQ_VER:="latest"}
 
 # Check tools
+if ! type ncli > /dev/null 2>&1; then
+    echo "ncli not found."
+    exit 1
+fi
+
+
+
 if ! type jq > /dev/null 2>&1; then
     _base_url="https://github.com/jqlang/jq/releases"
     _filename="jq-linux-amd64"
