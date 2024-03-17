@@ -19,4 +19,6 @@ SCRIPT_HELPERS="${SCRIPT_RUN}/helpers"
 
 . ${SCRIPT_HELPERS}/prism_common.sh
 
+printenv
+
 prism_configure_ntp
