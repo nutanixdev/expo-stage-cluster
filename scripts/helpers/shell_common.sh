@@ -14,6 +14,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+####################################################
+# fail_trap is executed if an error occurs.
+####################################################
+fail_trap() {
+  result=$?
+  if [ "$result" != "0" ]; then
+    if [[ -n "$INPUT_ARGUMENTS" ]]; then
+      echo "Failed to install with the arguments provided: $INPUT_ARGUMENTS"
+      help
+    else
+      echo "Failed to install"
+    fi
+    echo -e "\tFor support, go to #technology-bootcamp."
+  fi
+  cleanup
+  exit $result
+}
+
+####################################################
+# cleanup temporary files
+####################################################
+cleanup() {
+  if [[ -d "${PACKAGE_TMP_ROOT:-}" ]]; then
+    rm -rf "$PACKAGE_TMP_ROOT"
+  fi
+}
+
+####################################################
+# log executed commands
+####################################################
 log_info() {
     echo "[INFO] $(date +'%Y-%m-%d %H:%M:%S') $$ - $@"
 }
@@ -39,4 +69,15 @@ execute_command() {
     else
         log_error "Command failed with exit code $?"
     fi
+}
+
+####################################################
+# download files
+####################################################
+function download() {
+    local url=$1
+    local filename=$(basename "$url")
+
+    curl ${CURL_OPTS} --output "$filename" "$url"
+    echo "$filename"
 }

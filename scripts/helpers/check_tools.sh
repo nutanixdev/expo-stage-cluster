@@ -15,10 +15,10 @@
 # limitations under the License.
 
 SCRIPT_RUN="$(dirname "${BASH_SOURCE[0]}")"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "SCRIPT_RUN=${SCRIPT_RUN}"
-echo "SCRIPT_DIR=${SCRIPT_DIR}"
+# echo "SCRIPT_RUN=${SCRIPT_RUN}"
+# echo "SCRIPT_DIR=${SCRIPT_DIR}"
 
 . ${SCRIPT_RUN}/shell_common.sh
 
@@ -35,9 +35,9 @@ if ! type jq > /dev/null 2>&1; then
     else
         _package_url="${_base_url}/download/${NTNX_PKG_JQ_VER}/${_filename}"
     fi
-    execute_command wget ${_package_url}
-    execute_command chmod +x ${_filename}
-    execute_command sudo mv -f ${_filename} /usr/local/bin/jq
+    execute_command download "${_package_url}"
+    execute_command chmod +x "${_filename}"
+    execute_command sudo mv -f "${_filename}" /usr/local/bin/jq
     execute_command jq --version
 
     execute_command unset _base_url _filename _package_url
