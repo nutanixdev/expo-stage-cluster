@@ -22,14 +22,14 @@ SCRIPT_RUN="$(dirname "${BASH_SOURCE[0]}")"
 function prism_configure_ntp() {
     local _existing_ntp_servers=$(ncli cluster get-ntp-servers | grep -oP 'NTP Servers\s*:\s*\K(.*$)' | sed 's/ //g')
 
-    if [ "$_existing_ntp_servers" == "${NTP_SERVERS}" ]; then
-        execute_command echo "IDEMPOTENCY: ${NTP_SERVERS} NTP server(s) set, skip."
+    if [ "$_existing_ntp_servers" == "${NTNX_PRISM_NTP_SERVERS}" ]; then
+        execute_command echo "IDEMPOTENCY: ${NTNX_PRISM_NTP_SERVERS} NTP server(s) set, skip."
     else
         if [ -n "${_existing_ntp_servers}" ]; then
             execute_command echo "Remove existing NTP server(s)"
             execute_command ncli cluster remove-from-ntp-servers ntp-servers=$_existing_ntp_servers
         fi
         execute_command echo "Configure NTP server(s)"
-        execute_command ncli cluster add-to-ntp-servers ntp-servers=${NTP_SERVERS}
+        execute_command ncli cluster add-to-ntp-servers ntp-servers=${NTNX_PRISM_NTP_SERVERS}
     fi
 }

@@ -23,6 +23,7 @@
 : ${NTNX_GH_ORGANIZATION:="nutanixdev"}
 : ${NTNX_GH_REPOSITORY:="expo-stage-cluster"}
 : ${NTNX_GH_BRANCH:="main"}
+: ${NTNX_PRISM_NTP_SERVERS:="time1.google.com,time2.google.com,time3.google.com"}
 
 # GitHub
 NTNX_GH_REPOSITORY_URL="https://github.com/${NTNX_GH_ORGANIZATION}/${NTNX_GH_REPOSITORY}"
