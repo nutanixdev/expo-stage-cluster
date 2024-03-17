@@ -24,6 +24,7 @@
 : ${NTNX_GH_REPOSITORY:="expo-stage-cluster"}
 : ${NTNX_GH_BRANCH:="main"}
 : ${NTNX_PRISM_NTP_SERVERS:="time1.google.com,time2.google.com,time3.google.com"}
+: ${NTNX_PRISM_DNS_SERVERS:="10.42.194.10"}
 
 # GitHub
 NTNX_GH_REPOSITORY_URL="https://github.com/${NTNX_GH_ORGANIZATION}/${NTNX_GH_REPOSITORY}"

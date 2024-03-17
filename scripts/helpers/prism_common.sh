@@ -14,10 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SCRIPT_RUN="$(dirname "${BASH_SOURCE[0]}")"
+# SCRIPT_RUN="$(dirname "${BASH_SOURCE[0]}")"
 
-. ${SCRIPT_RUN}/shell_common.sh
-. /etc/profile
+# . ${SCRIPT_RUN}/shell_common.sh
+# . /etc/profile
 
 function prism_configure_ntp() {
     local _existing_ntp_servers=$(ncli cluster get-ntp-servers | grep -oP 'NTP Servers\s*:\s*\K(.*$)' | sed 's/ //g')
@@ -31,5 +31,20 @@ function prism_configure_ntp() {
         fi
         execute_command echo "Configure NTP server(s)"
         execute_command ncli cluster add-to-ntp-servers ntp-servers=${NTNX_PRISM_NTP_SERVERS}
+    fi
+}
+
+function prism_configure_dns() {
+    local _existing_dns_servers=$(ncli cluster get-name-servers | grep -oP 'Name Servers\s*:\s*\K(.*$)' | sed 's/ //g')
+
+    if [ "$_existing_dns_servers" == "${NTNX_PRISM_DNS_SERVERS}" ]; then
+        execute_command echo "IDEMPOTENCY: ${NTNX_PRISM_DNS_SERVERS} DNS server(s) set, skip."
+    else
+        if [ -n "${_existing_dns_servers}" ]; then
+            execute_command echo "Remove existing DNS server(s)"
+            execute_command ncli cluster remove-from-name-servers name-servers=$_existing_dns_servers
+        fi
+        execute_command echo "Configure DNS server(s)"
+        execute_command ncli cluster add-to-name-servers name-servers=${NTNX_PRISM_DNS_SERVERS}
     fi
 }
