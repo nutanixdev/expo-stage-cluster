@@ -79,8 +79,8 @@ function prism_ui_timeout() {
 
     _json=$(cat <<EOF
     {"type":"UI_CONFIG","username":"system_data","key":"disable_2048","value":true} \
-    {"type":"UI_CONFIG","key":"autoLogoutGlobal","value":7200000} \
-    {"type":"UI_CONFIG","key":"autoLogoutOverride","value":0}
+    {"type":"UI_CONFIG","key":"autoLogoutGlobal","value":"7200000"} \
+    {"type":"UI_CONFIG","key":"autoLogoutOverride","value":"0"}
 EOF
     )
 
@@ -92,7 +92,7 @@ EOF
             https://$_host:9440/PrismGateway/services/rest/v1/application/system_data
     done
 
-    _http_body='{"type":"UI_CONFIG","key":"autoLogoutTime","value": 3600000}'
+    _http_body='{"username": "admin","type":"UI_CONFIG","key":"autoLogoutTime","value": "0"}'
     execute_command curl ${CURL_HTTP_OPTS} \
         --user ${NTNX_PRISM_USERNAME}:${NTNX_PRISM_PASSWORD} -X PUT --data "${_http_body}" \
         https://$_host:9440/PrismGateway/services/rest/v1/application/user_data
