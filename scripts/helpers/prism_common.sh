@@ -87,13 +87,13 @@ EOF
     execute_command echo "increasing Prism UI timeout"
 
     for _http_body in ${_json}; do
-        execute_command curl ${CURL_HTTP_OPTS} \
+        execute_command curl ${CURL_POST_OPTS} \
             --user ${NTNX_PRISM_USERNAME}:${NTNX_PRISM_PASSWORD} -X PUT --data "${_http_body}" \
             https://$_host:9440/PrismGateway/services/rest/v1/application/system_data
     done
 
     _http_body='{"username": "admin","type":"UI_CONFIG","key":"autoLogoutTime","value": "0"}'
-    execute_command curl ${CURL_HTTP_OPTS} \
+    execute_command curl ${CURL_POST_OPTS} \
         --user ${NTNX_PRISM_USERNAME}:${NTNX_PRISM_PASSWORD} -X PUT --data "${_http_body}" \
         https://$_host:9440/PrismGateway/services/rest/v1/application/user_data
 }
