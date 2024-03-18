@@ -21,3 +21,6 @@ SCRIPT_HELPERS="${SCRIPT_RUN}/helpers"
 
 prism_configure_ntp
 prism_configure_dns
+prism_accept_eula
+prism_disable_pulse
+prism_ui_timeout
