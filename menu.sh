@@ -15,16 +15,19 @@
 # limitations under the License.
 
 # How to run: 
-#   Standard: bash <(curl -s http://127.0.0.1:5500/menu.sh) arg1 arg2 arg3 ...
-#   Test: NTNX_SCRIPT_USER=$USER bash <(curl -s http://127.0.0.1:5500/menu.sh) arg1 arg2 arg3 ...
+#   Standard: bash <(curl -s https://raw.githubusercontent.com/nutanixdev/expo-stage-cluster/main/menu.sh) arg1 arg2 arg3 ...
+#   Test: NTNX_SCRIPT_USER=$USER bash <(curl -s https://raw.githubusercontent.com/nutanixdev/expo-stage-cluster/main/menu.sh) arg1 arg2 arg3 ...
 
 # Environment variables
+: ${DEBUG:="false"}
 : ${NTNX_SCRIPT_USER:="nutanix"}
 : ${NTNX_GH_ORGANIZATION:="nutanixdev"}
 : ${NTNX_GH_REPOSITORY:="expo-stage-cluster"}
 : ${NTNX_GH_BRANCH:="main"}
 : ${NTNX_PRISM_NTP_SERVERS:="time1.google.com,time2.google.com,time3.google.com"}
 : ${NTNX_PRISM_DNS_SERVERS:="10.42.194.10"}
+: ${NTNX_PRISM_USERNAME:="admin"}
+: ${NTNX_PRISM_PASSWORD:="password"}
 
 # GitHub
 NTNX_GH_REPOSITORY_URL="https://github.com/${NTNX_GH_ORGANIZATION}/${NTNX_GH_REPOSITORY}"
@@ -35,10 +38,14 @@ NTNX_GH_ARCHIVE_DIR="${NTNX_GH_REPOSITORY}-${NTNX_GH_BRANCH}"
 # Curl, Wget, and SSH settings
 CURL_OPTS='--insecure --silent --show-error --location' # --verbose'
 CURL_POST_OPTS="${CURL_OPTS} --max-time 15 --header Content-Type:application/json --header Accept:application/json" # --output /dev/null"
-CURL_HTTP_OPTS="${CURL_POST_OPTS} --write-out %{http_code}"
+CURL_HTTP_OPTS="${CURL_POST_OPTS} --write-out \nStatus:%{http_code}\n"
 SSH_OPTS='-i ~/.ssh/tme_id_rsa -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null'
 SSH_OPTS+=' -q' # -v'
 WGET_OPTS='--no-check-certificate --quiet --progress=bar:force --timestamping'
+
+# Defaults
+PRISM_PASSWORD_UI="Nutanix/4u"
+PRISM_PASSWORD_SSH="nutanix/4u"
 
 # check the logged in user is nutanix 
 function user_is_nutanix() {
